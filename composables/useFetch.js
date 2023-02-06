@@ -34,54 +34,54 @@ export const useFetch = async (method, data = undefined) => {
         //../assets/attribute.product.img_bus_por_200x200.jpg
         return [
           {
-            name: "aaa",
-            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
-            link: '#'
+            productName: "aaa",
+            productLogoSmall: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            url: '#'
           },
           {
-            name: "bbb",
-            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
-            link: '#'
+            productName: "bbb",
+            productLogoSmall: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            url: '#'
           },
           {
-            name: "ccc",
-            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
-            link: '#'
+            productName: "ccc",
+            productLogoSmall: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            url: '#'
           },
           {
-            name: "abb",
-            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
-            link: '#'
+            productName: "abb",
+            productLogoSmall: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            url: '#'
           },
           {
-            name: "bcc",
-            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
-            link: '#'
+            productName: "bcc",
+            productLogoSmall: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            url: '#'
           },
           {
-            name: "cca",
-            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
-            link: '#'
+            productName: "cca",
+            productLogoSmall: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            url: '#'
           },
           {
-            name: "bac",
-            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
-            link: '#'
+            productName: "bac",
+            productLogoSmall: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            url: '#'
           },
           {
-            name: "bcc",
-            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
-            link: '#'
+            productName: "bcc",
+            productLogoSmall: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            url: '#'
           },
           {
-            name: "cca",
-            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
-            link: '#'
+            productName: "cca",
+            productLogoSmall: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            url: '#'
           },
           {
-            name: "bac",
-            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
-            link: '#'
+            productName: "bac",
+            productLogoSmall: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            url: '#'
           },
         ];
       }
@@ -93,54 +93,54 @@ export const useFetch = async (method, data = undefined) => {
     // store.responseMessage.msg = error;
     return [
       {
-        name: "aaa",
-        img: "../assets/attribute.product.img_bus_por_200x200.jpg",
-        link: '#'
+        productName: "aaa",
+        productLogoSmall: "../assets/attribute.product.img_bus_por_200x200.jpg",
+        url: '#'
       },
       {
-        name: "bbb",
-        img: "../assets/attribute.product.img_bus_por_200x200.jpg",
-        link: '#'
+        productName: "bbb",
+        productLogoSmall: "../assets/attribute.product.img_bus_por_200x200.jpg",
+        url: '#'
       },
       {
-        name: "ccc",
-        img: "../assets/attribute.product.img_bus_por_200x200.jpg",
-        link: '#'
+        productName: "ccc",
+        productLogoSmall: "../assets/attribute.product.img_bus_por_200x200.jpg",
+        url: '#'
       },
       {
-        name: "abb",
-        img: "../assets/attribute.product.img_bus_por_200x200.jpg",
-        link: '#'
+        productName: "abb",
+        productLogoSmall: "../assets/attribute.product.img_bus_por_200x200.jpg",
+        url: '#'
       },
       {
-        name: "bcc",
-        img: "../assets/attribute.product.img_bus_por_200x200.jpg",
-        link: '#'
+        productName: "bcc",
+        productLogoSmall: "../assets/attribute.product.img_bus_por_200x200.jpg",
+        url: '#'
       },
       {
-        name: "cca",
-        img: "../assets/attribute.product.img_bus_por_200x200.jpg",
-        link: '#'
+        productName: "cca",
+        productLogoSmall: "../assets/attribute.product.img_bus_por_200x200.jpg",
+        url: '#'
       },
       {
-        name: "bac",
-        img: "../assets/attribute.product.img_bus_por_200x200.jpg",
-        link: '#'
+        productName: "bac",
+        productLogoSmall: "../assets/attribute.product.img_bus_por_200x200.jpg",
+        url: '#'
       },
       {
-        name: "bcc",
-        img: "../assets/attribute.product.img_bus_por_200x200.jpg",
-        link: '#'
+        productName: "bcc",
+        productLogoSmall: "../assets/attribute.product.img_bus_por_200x200.jpg",
+        url: '#'
       },
       {
-        name: "cca",
-        img: "../assets/attribute.product.img_bus_por_200x200.jpg",
-        link: '#'
+        productName: "cca",
+        productLogoSmall: "../assets/attribute.product.img_bus_por_200x200.jpg",
+        url: '#'
       },
       {
-        name: "bac",
-        img: "../assets/attribute.product.img_bus_por_200x200.jpg",
-        link: '#'
+        productName: "bac",
+        productLogoSmall: "../assets/attribute.product.img_bus_por_200x200.jpg",
+        url: '#'
       },
     ];
   }

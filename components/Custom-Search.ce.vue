@@ -27,7 +27,7 @@
             xmlns="http://www.w3.org/2000/svg"
             width="25px"
             viewBox="0 0 16 16"
-            fill="grey"
+            fill="rgb(44, 62, 80);"
           >
             <path
               d="M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z"
@@ -40,6 +40,7 @@
           <article>
             <a class="card product" :href="item.url">
               <div class="card-body">
+                <div class="product__name">{{ item?.productName }}</div>
                 <div class="product__image-container logo-product">
                   <img
                     :src="item?.productLogoSmall"
@@ -47,7 +48,6 @@
                     class="product__image-container__image"
                   />
                 </div>
-                <div class="product__name">{{ item?.productName }}</div>
               </div>
             </a>
           </article>
@@ -219,13 +219,11 @@ const hideSearch = () => {
 }
 
 .product {
-  box-shadow: 0 0.125rem 0.5rem rgb(34 34 34 / 12%);
+  //box-shadow: 0 0.125rem 0.5rem rgb(34 34 34 / 12%);
   width: 100%;
-  border-radius: 0.5rem;
+  //border-radius: 0.5rem;
   transition: all 0.15s ease-in;
-}
-.card {
-  border: none;
+  width: calc(100% - 20px);
 }
 .card {
   position: relative;
@@ -235,12 +233,14 @@ const hideSearch = () => {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #fff;
+  //background-color: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 0.25rem;
+  //border: 1px solid rgba(0, 0, 0, 0.125);
+  //border-radius: 0.25rem;
+  border: none;
   text-decoration: none;
   max-width: 350px;
+  background-color: rgb(240,240,240);
 }
 .product .card-body {
   position: relative;
@@ -248,7 +248,11 @@ const hideSearch = () => {
   transition: all 0.5s ease;
 }
 .card:hover {
-  transform: scale(1.03);
+  //transform: scale(1.03);
+transform: scale(1.02);
+    background: #f0f0f0;
+    box-shadow: 0.1em 0.1em 0.6em 0 rgb(51 51 51 / 20%);
+    border-radius: 0.2em;
 }
 .card-body {
   -ms-flex: 1 1 auto;
@@ -270,6 +274,7 @@ const hideSearch = () => {
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
+  border-radius: 14px;
 }
 img {
   vertical-align: middle;
