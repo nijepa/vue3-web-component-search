@@ -1,6 +1,6 @@
 <template>
   <div
-    ref="toastWrapper"
+    ref="searchWrapper"
     :class="{ infront: active }"
     id="search-wrapper"
     :style="{ height: active ? '100%' : 0 }"
@@ -8,11 +8,10 @@
     <div
       class="search__open"
       :class="{ hide: !active }"
-      @click="hideToast"
+      @click="hideSearch"
     ></div>
     <div id="toast" class="search" :class="{ hide: !active }">
       <div class="search-box">
-        <!-- <Transition name="slide-up" appear> -->
         <input
           type="text"
           v-model="searchString"
@@ -21,10 +20,9 @@
           id=""
           ref="search"
         />
-        <!-- </Transition> -->
         <div class="close">
           <svg
-            @click="hideToast"
+            @click="hideSearch"
             class="btn-close"
             xmlns="http://www.w3.org/2000/svg"
             width="25px"
@@ -37,7 +35,6 @@
           </svg>
         </div>
       </div>
-
       <div class="filter-results">
         <template class="" v-for="item in filteredData">
           <article>
@@ -78,11 +75,11 @@ const props = defineProps({
   },
 });
 
-const search = ref(null);
 onMounted(() => {
   console.log(8);
   //getData()
 });
+
 const receivedData = ref([]);
 const getData = async () => {
   const received = await useFetch("GET");
@@ -93,6 +90,8 @@ const getData = async () => {
   console.log("err", received);
   receivedData.value = received;
 };
+// searching/filtering data
+const search = ref(null);
 const searchString = ref(null);
 const filteredData = computed(() => {
   return (
@@ -100,7 +99,7 @@ const filteredData = computed(() => {
     receivedData.value.filter((r) => r.name.includes(searchString.value))
   );
 });
-// setting toast state
+// setting component state
 const active = ref(false);
 watch(
   () => props.isActive,
@@ -109,7 +108,6 @@ watch(
     active.value = newValue === "true";
     if (active.value) {
       !receivedData.value.length && getData();
-      console.log("uuu", receivedData.value.length);
       search.value.focus();
     }
   }
@@ -117,10 +115,10 @@ watch(
 
 // creating & emitting events
 const emit = defineEmits(["close-search"]);
-const toastWrapper = ref(null);
-const hideToast = () => {
+const searchWrapper = ref(null);
+const hideSearch = () => {
   active.value = false;
-  toastWrapper.value.dispatchEvent(
+  searchWrapper.value.dispatchEvent(
     new CustomEvent("close-search", {
       bubbles: true,
       composed: true,
@@ -128,42 +126,103 @@ const hideToast = () => {
   );
 };
 </script>
-<style>
+<style lang="scss">
 * {
   font-family: "Open Sans", sans-serif;
 }
-.filter-results {
+#search-wrapper {
+  font-family: "Open Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -9;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
-  column-gap: 1em;
-  row-gap: 1em;
-  width: 90%;
+  height: 0;
+  &.infront {
+    z-index: 9999 !important;
+  }
+  .search__open::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    content: "";
+    transition: all 5s ease;
+    opacity: 1;
+    &.hide {
+      display: none;
+      opacity: 0;
+    }
+  }
+  .search {
+    /* max-width: 500px; */
+    min-width: 150px;
+    background-color: white;
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0, 5em;
+    box-shadow: 5px 5px 12px rgb(0 0 0 / 15%);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+    padding-top: 0;
+    z-index: 999;
+    height: 500px;
+    width: 100%;
+    top: 130px;
+    opacity: 1;
+    overflow: hidden;
+    overflow-y: auto;
+    transition: 0.5s all ease;
+    &.hide {
+      padding: 0.5em;
+      opacity: 0;
+      height: 3.5em;
+      z-index: -1;
+    }
+    .filter-results {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      column-gap: 1em;
+      row-gap: 1em;
+      width: 90%;
+    }
+    .filter-results > article {
+      flex-basis: calc(25% - 1.5rem);
+    }
+    @media screen and (max-width: 1024px) {
+      .filter-results > article {
+        flex-basis: calc(33% - 1.5rem);
+      }
+    }
+    @media screen and (max-width: 768px) {
+      .filter-results > article {
+        flex-basis: calc(50% - 1.5rem);
+      }
+    }
+    @media screen and (max-width: 480px) {
+      .filter-results > article {
+        flex-basis: calc(100% - 1.5rem);
+      }
+    }
+  }
 }
-.filter-results > article {
-  flex-basis: calc(25% - 1.5rem);
-}
+
 .product {
   box-shadow: 0 0.125rem 0.5rem rgb(34 34 34 / 12%);
   width: 100%;
   border-radius: 0.5rem;
   transition: all 0.15s ease-in;
-}
-@media screen and (max-width: 1024px) {
-  .filter-results > article {
-    flex-basis: calc(33% - 1.5rem);
-  }
-}
-@media screen and (max-width: 768px) {
-  .filter-results > article {
-    flex-basis: calc(50% - 1.5rem);
-  }
-}
-@media screen and (max-width: 480px) {
-  .filter-results > article {
-    flex-basis: calc(100% - 1.5rem);
-  }
 }
 .card {
   border: none;
@@ -181,6 +240,7 @@ const hideToast = () => {
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
   text-decoration: none;
+  max-width: 350px;
 }
 .product .card-body {
   position: relative;
@@ -227,9 +287,6 @@ img {
   display: flex;
   width: 300px;
   column-gap: 1em;
-  /* height: 50px
-px
-; */
   margin: 1em 0;
   position: sticky;
   top: 0px;
@@ -279,124 +336,5 @@ px
   appearance: none;
   border-radius: 0;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-#search-wrapper {
-  font-family: "Open Sans", sans-serif;
-  /* font-family: Avenir, Helvetica, Arial, sans-serif; */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: -9;
-  display: flex;
-  /* min-height: 80vh; */
-  height: 0;
-}
-.infront {
-  z-index: 9999 !important;
-}
-.search__open::after {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: transparent;
-  content: "";
-  transition: all 5s ease;
-  opacity: 1;
-}
-.backdrop::after {
-  background: rgba(0, 0, 0, 0.5);
-}
-.search__open.hide {
-  display: none;
-  opacity: 0;
-}
-.search {
-  /* max-width: 500px; */
-  min-width: 150px;
-  background-color: white;
-  /* border-radius: 0.5em; */
-  border-bottom-left-radius: 0.5em;
-  border-bottom-right-radius: 0, 5em;
-  box-shadow: 5px 5px 12px rgb(0 0 0 / 15%);
-  display: flex;
-  /* justify-content: center; */
-  align-items: center;
-  flex-direction: column;
-  padding: 1em;
-  z-index: 999;
-  transition: 0.5s all ease;
-  opacity: 1;
-  overflow: hidden;
-  /* height: auto; */
-  /* margin: 1em; */
-  height: 500px;
-  width: 100%;
-  top: 130px;
-  position: relative;
-  overflow-y: auto;
-  padding-top: 0;
-}
-.search.hide {
-  padding: 0.5em;
-  opacity: 0;
-  height: 3.5em;
-  z-index: -1;
-}
-.wobble-enter-active {
-  animation: wobbles 0.8s ease;
-}
-.wobble-leave-active {
-  transition: all 2s ease;
-  animation: wobbles 1s linear;
-}
-@keyframes wobbles {
-  0% {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  50% {
-    transform: translateY(0px);
-    opacity: 0.3;
-  }
-  60% {
-    transform: translateX(8px);
-    opacity: 0.3;
-  }
-  70% {
-    transform: translateX(-8px);
-    opacity: 0.7;
-  }
-  80% {
-    transform: translateX(4px);
-    opacity: 0.7;
-  }
-  90% {
-    transform: translateX(-4px);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(0px);
-    opacity: 1;
-  }
-}
-.slide-up-enter-active,
-.slide-up-leave-active {
-  transition: all 2.25s ease;
-}
-.slide-up-enter-from {
-  opacity: 0;
-  transform: translateY(-30px);
-}
-.slide-up-leave-to {
-  opacity: 0;
-  transform: translateY(-30px);
 }
 </style>
