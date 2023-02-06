@@ -7,7 +7,7 @@ export const useFetch = async (method, data = undefined) => {
       headers: new Headers(headers),
     };
     const response = await fetch(
-      "https://incentivemall.srv-test05.cadooz.systems/mall/rest/catalog/getproductteasers",
+      "https://incentivemall.srv-test05.cadooz.systems/mall/rest/catalog/getitems",
       requestInit
       // {
       //   method,
@@ -30,6 +30,61 @@ export const useFetch = async (method, data = undefined) => {
       console.log(1, response);
     } else {
       console.log(2, response);
+      if(response.status === 500) {
+        //../assets/attribute.product.img_bus_por_200x200.jpg
+        return [
+          {
+            name: "aaa",
+            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            link: '#'
+          },
+          {
+            name: "bbb",
+            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            link: '#'
+          },
+          {
+            name: "ccc",
+            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            link: '#'
+          },
+          {
+            name: "abb",
+            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            link: '#'
+          },
+          {
+            name: "bcc",
+            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            link: '#'
+          },
+          {
+            name: "cca",
+            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            link: '#'
+          },
+          {
+            name: "bac",
+            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            link: '#'
+          },
+          {
+            name: "bcc",
+            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            link: '#'
+          },
+          {
+            name: "cca",
+            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            link: '#'
+          },
+          {
+            name: "bac",
+            img: "https://incentivemall.srv-test05.cadooz.systems/addons/product/389/38988/attribute.product.img_bus_por_200x200.jpg",
+            link: '#'
+          },
+        ];
+      }
       return response.json();
     }
   } catch (error) {

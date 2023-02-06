@@ -38,16 +38,16 @@
       <div class="filter-results">
         <template class="" v-for="item in filteredData">
           <article>
-            <a class="card product" :href="item.link">
+            <a class="card product" :href="item.url">
               <div class="card-body">
                 <div class="product__image-container logo-product">
                   <img
-                    :src="item.img"
-                    alt=""
+                    :src="item?.productLogoSmall"
+                    :alt="item?.productLogoSmall"
                     class="product__image-container__image"
                   />
                 </div>
-                <div class="product__name">{{ item?.name }}</div>
+                <div class="product__name">{{ item?.productName }}</div>
               </div>
             </a>
           </article>
@@ -84,7 +84,7 @@ const receivedData = ref([]);
 const getData = async () => {
   const received = await useFetch("GET");
   if (!received.error) {
-    console.log("mfa download codes", received);
+    console.log("received vouchers", received);
   }
   //handleMessages(received);
   console.log("err", received);
@@ -95,8 +95,8 @@ const search = ref(null);
 const searchString = ref(null);
 const filteredData = computed(() => {
   return (
-    searchString.value &&
-    receivedData.value.filter((r) => r.name.includes(searchString.value))
+    searchString.value && receivedData.value.length &&
+    receivedData.value.filter((r) => r.productName.toLowerCase().includes(searchString.value.toLowerCase()))
   );
 });
 // setting component state
