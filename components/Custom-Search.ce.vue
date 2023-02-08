@@ -10,14 +10,20 @@
       :class="{ hide: !active }"
       @click="hideSearch"
     ></div>
-    <div id="toast" class="search" :class="{ hide: !active }">
+    <div
+      id="toast"
+      class="search"
+      :class="{ hide: !active }"
+      :style="{
+        height: getModuleHeight,
+      }"
+    >
       <div class="search-box">
         <input
           type="text"
           v-model="searchString"
           class="form-control"
-          name=""
-          id=""
+          :placeholder="$t.placeholder"
           ref="search"
         />
         <div class="close">
@@ -35,10 +41,22 @@
           </svg>
         </div>
       </div>
-      <div class="filter-results">
-        <template class="" v-for="item in filteredData">
+      <div v-if="isSearchEmpty" class="empty-results">
+        {{ $t.empty }}
+        <hr style="margin-top: 2em" />
+      </div>
+      <hr
+        v-else-if="!filteredData?.length"
+        style="margin-top: 2em; width: 80%"
+      />
+      <div v-else class="filter-results">
+        <template
+          class=""
+          v-for="item in filteredData"
+          :key="item.productNumber"
+        >
           <article>
-            <a class="card product" :href="item.url">
+            <a class="card product" :href="generateLink(item)">
               <div class="card-body">
                 <div class="product__name">{{ item?.productName }}</div>
                 <div class="product__image-container logo-product">
@@ -57,55 +75,76 @@
   </div>
 </template>
 
-<!-- <script>
-export default{
-  inheritAttrs: false
-}
-
-</script> -->
 <script setup>
-import { ref, computed, watch, useAttrs, onMounted } from "vue";
-import { useFetch } from "../composables/useFetch";
+import { ref, computed, watch } from 'vue';
+import { useFetch } from '../composables/useFetch';
+import { resolveUrl } from '../utils/resolveUrl';
 
 // setting props
 const props = defineProps({
   isActive: {
     type: String,
-    default: "false",
+    default: 'false',
+  },
+  translations: {
+    type: String,
   },
 });
 
-onMounted(() => {
-  console.log(8);
-  //getData()
-});
+// prepare translations
+const $t = JSON.parse(props.translations);
+
+// return module height depending on state
+const getModuleHeight = computed(() => {
+  if(!active.value) return 0
+  return isSearchEmpty.value || !filteredData.value?.length ? '200px' : '500px'
+})
 
 const receivedData = ref([]);
 const getData = async () => {
-  const received = await useFetch("GET");
+  const received = await useFetch('GET');
   if (!received.error) {
-    console.log("received vouchers", received);
+    console.log('received vouchers', received);
   }
   //handleMessages(received);
-  console.log("err", received);
+  //console.log('err', received);
   receivedData.value = received;
 };
+
+// links for paroduct detal or product list page
+const generateLink = (product) => {
+  return product.listArticle
+    ? resolveUrl(`cat/view.do?liArt=${product.productNumber}&lht=#0`)
+    : resolveUrl(`product.do?productNumber=${product.productNumber}`);
+};
+
 // searching/filtering data
 const search = ref(null);
 const searchString = ref(null);
 const filteredData = computed(() => {
   return (
-    searchString.value && receivedData.value.length &&
-    receivedData.value.filter((r) => r.productName.toLowerCase().includes(searchString.value.toLowerCase()))
+    searchString.value &&
+    receivedData.value.length &&
+    receivedData.value.filter(
+      (r) =>
+        r.productName
+          .toLowerCase()
+          .includes(searchString.value.toLowerCase()) ||
+        r.searchwords.includes(searchString.value.toLowerCase())
+    )
   );
 });
+const isSearchEmpty = computed(() => {
+  return searchString.value?.length > 1 && !filteredData.value?.length;
+});
+
 // setting component state
 const active = ref(false);
 watch(
   () => props.isActive,
   (newValue, oldValue) => {
     // console.log("Watch props.selected function called with args:", newValue, oldValue);
-    active.value = newValue === "true";
+    active.value = newValue === 'true';
     if (active.value) {
       !receivedData.value.length && getData();
       search.value.focus();
@@ -114,12 +153,12 @@ watch(
 );
 
 // creating & emitting events
-const emit = defineEmits(["close-search"]);
+const emit = defineEmits(['close-search']);
 const searchWrapper = ref(null);
 const hideSearch = () => {
   active.value = false;
   searchWrapper.value.dispatchEvent(
-    new CustomEvent("close-search", {
+    new CustomEvent('close-search', {
       bubbles: true,
       composed: true,
     })
@@ -128,10 +167,10 @@ const hideSearch = () => {
 </script>
 <style lang="scss">
 * {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 #search-wrapper {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
@@ -153,7 +192,7 @@ const hideSearch = () => {
     right: 0;
     bottom: 0;
     background: transparent;
-    content: "";
+    content: '';
     transition: all 5s ease;
     opacity: 1;
     &.hide {
@@ -218,6 +257,11 @@ const hideSearch = () => {
   }
 }
 
+.empty-results {
+  width: 80%;
+  text-align: center;
+}
+
 .product {
   //box-shadow: 0 0.125rem 0.5rem rgb(34 34 34 / 12%);
   width: 100%;
@@ -240,7 +284,7 @@ const hideSearch = () => {
   border: none;
   text-decoration: none;
   max-width: 350px;
-  background-color: rgb(240,240,240);
+  background-color: rgb(240, 240, 240);
 }
 .product .card-body {
   position: relative;
@@ -249,10 +293,10 @@ const hideSearch = () => {
 }
 .card:hover {
   //transform: scale(1.03);
-transform: scale(1.02);
-    background: #f0f0f0;
-    box-shadow: 0.1em 0.1em 0.6em 0 rgb(51 51 51 / 20%);
-    border-radius: 0.2em;
+  transform: scale(1.02);
+  background: #f0f0f0;
+  box-shadow: 0.1em 0.1em 0.6em 0 rgb(51 51 51 / 20%);
+  border-radius: 0.2em;
 }
 .card-body {
   -ms-flex: 1 1 auto;

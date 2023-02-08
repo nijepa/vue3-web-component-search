@@ -68,6 +68,11 @@
         search.setAttribute("is-active", "false");
       };
       window.addEventListener("close-search", searchClosed);
+      const msg = {
+        empty: "empty",
+        placeholder: "search"
+      }
+      search.setAttribute("translations", JSON.stringify(msg))
     </script>
   </body>
 </html>
