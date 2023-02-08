@@ -76,15 +76,15 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
-import { useFetch } from '../composables/useFetch';
-import { resolveUrl } from '../utils/resolveUrl';
+import { ref, computed, watch } from "vue";
+import { useFetch } from "../composables/useFetch";
+import { resolveUrl } from "../utils/resolveUrl";
 
 // setting props
 const props = defineProps({
   isActive: {
     type: String,
-    default: 'false',
+    default: "false",
   },
   translations: {
     type: String,
@@ -96,22 +96,23 @@ const $t = JSON.parse(props.translations);
 
 // return module height depending on state
 const getModuleHeight = computed(() => {
-  if(!active.value) return 0
-  return isSearchEmpty.value || !filteredData.value?.length ? '200px' : '500px'
-})
+  if (!active.value) return 0;
+  return isSearchEmpty.value || !filteredData.value?.length ? "200px" : "500px";
+});
 
+// fetch availabile vouchers
 const receivedData = ref([]);
 const getData = async () => {
-  const received = await useFetch('GET');
+  const received = await useFetch("GET");
   if (!received.error) {
-    console.log('received vouchers', received);
+    console.log("received vouchers", received);
   }
   //handleMessages(received);
   //console.log('err', received);
   receivedData.value = received;
 };
 
-// links for paroduct detal or product list page
+// links for product details or product list page
 const generateLink = (product) => {
   return product.listArticle
     ? resolveUrl(`cat/view.do?liArt=${product.productNumber}&lht=#0`)
@@ -144,7 +145,7 @@ watch(
   () => props.isActive,
   (newValue, oldValue) => {
     // console.log("Watch props.selected function called with args:", newValue, oldValue);
-    active.value = newValue === 'true';
+    active.value = newValue === "true";
     if (active.value) {
       !receivedData.value.length && getData();
       search.value.focus();
@@ -153,12 +154,12 @@ watch(
 );
 
 // creating & emitting events
-const emit = defineEmits(['close-search']);
+const emit = defineEmits(["close-search"]);
 const searchWrapper = ref(null);
 const hideSearch = () => {
   active.value = false;
   searchWrapper.value.dispatchEvent(
-    new CustomEvent('close-search', {
+    new CustomEvent("close-search", {
       bubbles: true,
       composed: true,
     })
@@ -167,10 +168,10 @@ const hideSearch = () => {
 </script>
 <style lang="scss">
 * {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 #search-wrapper {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
@@ -192,7 +193,7 @@ const hideSearch = () => {
     right: 0;
     bottom: 0;
     background: transparent;
-    content: '';
+    content: "";
     transition: all 5s ease;
     opacity: 1;
     &.hide {
@@ -201,7 +202,6 @@ const hideSearch = () => {
     }
   }
   .search {
-    /* max-width: 500px; */
     min-width: 150px;
     background-color: white;
     border-bottom-left-radius: 0.5em;
@@ -263,9 +263,7 @@ const hideSearch = () => {
 }
 
 .product {
-  //box-shadow: 0 0.125rem 0.5rem rgb(34 34 34 / 12%);
   width: 100%;
-  //border-radius: 0.5rem;
   transition: all 0.15s ease-in;
   width: calc(100% - 20px);
 }
@@ -277,10 +275,7 @@ const hideSearch = () => {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  //background-color: #fff;
   background-clip: border-box;
-  //border: 1px solid rgba(0, 0, 0, 0.125);
-  //border-radius: 0.25rem;
   border: none;
   text-decoration: none;
   max-width: 350px;
@@ -292,7 +287,6 @@ const hideSearch = () => {
   transition: all 0.5s ease;
 }
 .card:hover {
-  //transform: scale(1.03);
   transform: scale(1.02);
   background: #f0f0f0;
   box-shadow: 0.1em 0.1em 0.6em 0 rgb(51 51 51 / 20%);
@@ -364,16 +358,13 @@ img {
   stroke: #fff;
 }
 .btn-close {
-  /* cursor: pointer; */
   stroke: rgb(44, 62, 80);
 }
 .btn-close:hover {
-  /* stroke-width: 2; */
   fill: #fff;
 }
 .form-control {
   display: block;
-  /* width: 100%; */
   padding: 0.4rem 1.4rem;
   font-size: 1rem;
   font-weight: 400;
