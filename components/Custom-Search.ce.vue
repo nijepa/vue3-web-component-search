@@ -41,6 +41,7 @@
           </svg>
         </div>
       </div>
+      <div v-if="error" style="color: red">{{ error }}</div>
       <div v-if="isSearchEmpty" class="empty-results">
         {{ $t.empty }}
         <hr style="margin-top: 2em" />
@@ -76,15 +77,15 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue";
-import { useFetch } from "../composables/useFetch";
-import { resolveUrl } from "../utils/resolveUrl";
+import { ref, computed, watch } from 'vue';
+import { useFetch } from '../composables/useFetch';
+import { resolveUrl } from '../utils/resolveUrl';
 
 // setting props
 const props = defineProps({
   isActive: {
     type: String,
-    default: "false",
+    default: 'false',
   },
   translations: {
     type: String,
@@ -97,19 +98,25 @@ const $t = JSON.parse(props.translations);
 // return module height depending on state
 const getModuleHeight = computed(() => {
   if (!active.value) return 0;
-  return isSearchEmpty.value || !filteredData.value?.length ? "200px" : "500px";
+  return isSearchEmpty.value || !filteredData.value?.length ? '200px' : '500px';
 });
+
+// show error
+const handleError = (msg) => {
+  error.value = msg;
+  setTimeout(() => {
+    error.value = null;
+  }, 6000);
+};
 
 // fetch availabile vouchers
 const receivedData = ref([]);
+const error = ref(null);
 const getData = async () => {
-  const received = await useFetch("GET");
-  if (!received.error) {
-    console.log("received vouchers", received);
-  }
-  //handleMessages(received);
-  //console.log('err', received);
-  receivedData.value = received;
+  const received = await useFetch('GET');
+  received.error
+    ? handleError(received.errorMessage)
+    : (receivedData.value = received);
 };
 
 // links for product details or product list page
@@ -145,7 +152,7 @@ watch(
   () => props.isActive,
   (newValue, oldValue) => {
     // console.log("Watch props.selected function called with args:", newValue, oldValue);
-    active.value = newValue === "true";
+    active.value = newValue === 'true';
     if (active.value) {
       !receivedData.value.length && getData();
       search.value.focus();
@@ -154,12 +161,12 @@ watch(
 );
 
 // creating & emitting events
-const emit = defineEmits(["close-search"]);
+const emit = defineEmits(['close-search']);
 const searchWrapper = ref(null);
 const hideSearch = () => {
   active.value = false;
   searchWrapper.value.dispatchEvent(
-    new CustomEvent("close-search", {
+    new CustomEvent('close-search', {
       bubbles: true,
       composed: true,
     })
@@ -168,10 +175,10 @@ const hideSearch = () => {
 </script>
 <style lang="scss">
 * {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 #search-wrapper {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
@@ -193,7 +200,7 @@ const hideSearch = () => {
     right: 0;
     bottom: 0;
     background: transparent;
-    content: "";
+    content: '';
     transition: all 5s ease;
     opacity: 1;
     &.hide {
