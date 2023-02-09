@@ -12,13 +12,20 @@
     />
     <style>
       * {
-        font-family: "Open Sans", sans-serif;
+        font-family: 'Open Sans', sans-serif;
       }
       header {
         display: flex;
       }
       #search {
+        fill: white;
         cursor: pointer;
+        width: 1.7em;
+        stroke: white;
+        stroke-width: 0.1;
+      }
+      #search:hover {
+        stroke-width: 2px;
       }
     </style>
   </head>
@@ -60,19 +67,19 @@
     </div>
     <script type="module" src="/main.js"></script>
     <script>
-      const search = document.querySelector("custom-search");
+      const search = document.querySelector('custom-search');
       const showToast = () => {
-        search.setAttribute("is-active", "true");
+        search.setAttribute('is-active', 'true');
       };
       const searchClosed = () => {
-        search.setAttribute("is-active", "false");
+        search.setAttribute('is-active', 'false');
       };
-      window.addEventListener("close-search", searchClosed);
+      window.addEventListener('close-search', searchClosed);
       const msg = {
-        empty: "empty",
-        placeholder: "search"
-      }
-      search.setAttribute("translations", JSON.stringify(msg))
+        empty: 'empty',
+        placeholder: 'search',
+      };
+      search.setAttribute('translations', JSON.stringify(msg));
     </script>
   </body>
 </html>

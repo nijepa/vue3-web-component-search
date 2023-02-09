@@ -11,7 +11,7 @@
       @click="hideSearch"
     ></div>
     <div
-      id="toast"
+      id="search"
       class="search"
       :class="{ hide: !active }"
       :style="{
