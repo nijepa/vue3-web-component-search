@@ -1,7 +1,7 @@
 import { resolveUrl } from '../utils/resolveUrl';
-export const useFetch = async (method, data = undefined) => {
+export const useFetch = async (method, context) => {
   try {
-    const URL = resolveUrl('rest/catalog/getitems');
+    const URL = resolveUrl(context, 'rest/catalog/getitems');
     const JSON_HEADER = 'application/json';
     const headers = [['Accept', JSON_HEADER]];
     const requestInit = {

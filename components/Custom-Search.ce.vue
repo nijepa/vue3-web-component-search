@@ -22,14 +22,13 @@
         <input
           type="text"
           v-model="searchString"
-          class="form-control"
+          class="search-input"
           :placeholder="$t.placeholder"
           ref="search"
         />
-        <div class="close">
+        <div @click="hideSearch" class="search-close__container">
           <svg
-            @click="hideSearch"
-            class="btn-close"
+            class="search-close__button"
             xmlns="http://www.w3.org/2000/svg"
             width="25px"
             viewBox="0 0 16 16"
@@ -42,7 +41,7 @@
         </div>
       </div>
       <div v-if="error" style="color: red">{{ error }}</div>
-      <div v-if="isSearchEmpty" class="empty-results">
+      <div v-if="isSearchEmpty" class="search-results_empty">
         {{ $t.empty }}
         <hr style="margin-top: 2em" />
       </div>
@@ -50,21 +49,21 @@
         v-else-if="!filteredData?.length"
         style="margin-top: 2em; width: 80%"
       />
-      <div v-else class="filter-results">
+      <div v-else class="search-results">
         <template
           class=""
           v-for="item in filteredData"
           :key="item.productNumber"
         >
           <article>
-            <a class="card product" :href="generateLink(item)">
-              <div class="card-body">
-                <div class="product__name">{{ item?.productName }}</div>
-                <div class="product__image-container logo-product">
+            <a class="search-card" :href="generateLink(item)">
+              <div class="search-card__body">
+                <div class="search-product__name">{{ item?.productName }}</div>
+                <div class="search-product__image__container">
                   <img
                     :src="item?.productLogoSmall"
                     :alt="item?.productLogoSmall"
-                    class="product__image-container__image"
+                    class="search-product__image"
                   />
                 </div>
               </div>
@@ -90,6 +89,10 @@ const props = defineProps({
   translations: {
     type: String,
   },
+  context: {
+    type: String,
+    default: '/mall',
+  },
 });
 
 // prepare translations
@@ -113,7 +116,7 @@ const handleError = (msg) => {
 const receivedData = ref([]);
 const error = ref(null);
 const getData = async () => {
-  const received = await useFetch('GET');
+  const received = await useFetch('GET', props.context);
   received.error
     ? handleError(received.errorMessage)
     : (receivedData.value = received);
@@ -122,8 +125,14 @@ const getData = async () => {
 // links for product details or product list page
 const generateLink = (product) => {
   return product.listArticle
-    ? resolveUrl(`cat/view.do?liArt=${product.productNumber}&lht=#0`)
-    : resolveUrl(`product.do?productNumber=${product.productNumber}`);
+    ? resolveUrl(
+        props.context,
+        `cat/view.do?liArt=${product.productNumber}&lht=#0`
+      )
+    : resolveUrl(
+        props.context,
+        `product.do?productNumber=${product.productNumber}`
+      );
 };
 
 // searching/filtering data
@@ -234,7 +243,7 @@ const hideSearch = () => {
       height: 3.5em;
       z-index: -1;
     }
-    .filter-results {
+    .search-results {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
@@ -243,38 +252,33 @@ const hideSearch = () => {
       row-gap: 1em;
       width: 90%;
     }
-    .filter-results > article {
+    .search-results > article {
       flex-basis: calc(25% - 1.5rem);
     }
     @media screen and (max-width: 1024px) {
-      .filter-results > article {
+      .search-results > article {
         flex-basis: calc(33% - 1.5rem);
       }
     }
     @media screen and (max-width: 768px) {
-      .filter-results > article {
+      .search-results > article {
         flex-basis: calc(50% - 1.5rem);
       }
     }
     @media screen and (max-width: 480px) {
-      .filter-results > article {
+      .search-results > article {
         flex-basis: calc(100% - 1.5rem);
       }
     }
   }
 }
 
-.empty-results {
+.search-results_empty {
   width: 80%;
   text-align: center;
 }
 
-.product {
-  width: 100%;
-  transition: all 0.15s ease-in;
-  width: calc(100% - 20px);
-}
-.card {
+.search-card {
   position: relative;
   display: -ms-flexbox;
   display: flex;
@@ -287,31 +291,34 @@ const hideSearch = () => {
   text-decoration: none;
   max-width: 350px;
   background-color: rgb(240, 240, 240);
+  width: 100%;
+  transition: all 0.15s ease-in;
+  width: calc(100% - 20px);
 }
-.product .card-body {
+.search-card .search-card__body {
   position: relative;
   padding: 1rem;
   transition: all 0.5s ease;
 }
-.card:hover {
+.search-card:hover {
   transform: scale(1.02);
   background: #f0f0f0;
   box-shadow: 0.1em 0.1em 0.6em 0 rgb(51 51 51 / 20%);
   border-radius: 0.2em;
 }
-.card-body {
+.search-card__body {
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   min-height: 1px;
   padding: 1.25rem;
 }
-.product__image-container {
+.search-product__image__container {
   position: relative;
   width: 100%;
   margin-bottom: 1rem;
   padding-top: 62.5%;
 }
-.product__image-container__image {
+.search-product__image {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -320,12 +327,10 @@ const hideSearch = () => {
   max-height: 100%;
   overflow: hidden;
   border-radius: 14px;
-}
-img {
   vertical-align: middle;
   border-style: none;
 }
-.product__name {
+.search-product__name {
   height: 2.5rem;
   color: rgb(51, 51, 51);
   line-height: 1.25;
@@ -346,7 +351,7 @@ img {
   background: white;
   padding: 1em;
 }
-.close {
+.search-close__container {
   display: flex;
   border-radius: 50%;
   padding: 0.5em;
@@ -356,21 +361,21 @@ img {
   transition: all 0.5s ease;
   cursor: pointer;
 }
-.close:hover {
+.search-close__container:hover {
   background-color: #2c3e50;
   color: #fff;
 }
-.close:hover .btn-close {
+.search-close__container:hover .search-close__button {
   fill: #fff;
   stroke: #fff;
 }
-.btn-close {
+.search-close__button {
   stroke: rgb(44, 62, 80);
 }
-.btn-close:hover {
+.search-close__button:hover {
   fill: #fff;
 }
-.form-control {
+.search-input {
   display: block;
   padding: 0.4rem 1.4rem;
   font-size: 1rem;

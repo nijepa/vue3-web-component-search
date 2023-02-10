@@ -26,7 +26,7 @@
 
 ## Interacting with component
 
-### Script for *emmiting/listening* event *to/from* component and getting required translations:
+### Script for *emmiting/listening* event *to/from* component and getting required translations, app context name:
 
 ```js
   <script async defer>
@@ -43,6 +43,7 @@
       placeholder: "$!{messages.get('incentivemall.productoverview.search')}"
     }
     search.setAttribute("translations", JSON.stringify(msgs))
+    search.setAttribute("context", "$request.getContextPath()")
   </script>
 ```
 
@@ -58,19 +59,27 @@
 
 ### Props
 
-- #### ***show/hide component:***
+- #### ***Used for component state (show/hide):***
 
   ### **`isActive`**
 
     - Type: String
     - Default: 'false'
 
-- #### ***Translations are recived from velocity template as object, need to use `JSON.parse`:***
+
+- #### ***Used for text resources (recived from velocity template as object, need to use `JSON.parse`):***
 
   ### **`translations`**
 
     - Type: String
 
+
+- #### ***Used for API call and creating links to outer pages:***
+
+  ### **`context`**
+
+    - Type: String
+    - Default: '/mall'
 
 <hr>
 
