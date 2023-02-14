@@ -66,6 +66,7 @@
     - Type: String
     - Default: 'false'
 
+<br/>
 
 - #### ***Used for text resources (recived from velocity template as object, need to use `JSON.parse`):***
 
@@ -73,8 +74,9 @@
 
     - Type: String
 
+<br/>
 
-- #### ***Used for API call and creating links to outer pages:***
+- #### ***Used for API call and generation of links to outer pages:***
 
   ### **`context`**
 
