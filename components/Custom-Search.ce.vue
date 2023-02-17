@@ -109,6 +109,7 @@ const getModuleHeight = computed(() => {
 });
 
 // show error
+const error = ref(null);
 const handleError = (msg) => {
   error.value = msg;
   setTimeout(() => {
@@ -118,7 +119,6 @@ const handleError = (msg) => {
 
 // fetch availabile vouchers
 const receivedData = ref([]);
-const error = ref(null);
 const getData = async () => {
   const received = await useFetch('GET', props.context);
   received.error
@@ -131,7 +131,7 @@ const generateLink = (product) => {
   return product.listArticle
     ? resolveUrl(
         props.context,
-        `cat/view.do?liArt=${product.productNumber}&lht=#0`
+        `cat/view.do?liArt=${product.productNumber}&lht=list_article#0`
       )
     : resolveUrl(
         props.context,
@@ -163,8 +163,7 @@ const isSearchEmpty = computed(() => {
 const active = ref(false);
 watch(
   () => props.isActive,
-  (newValue, oldValue) => {
-    // console.log("Watch props.selected function called with args:", newValue, oldValue);
+  (newValue) => {
     active.value = newValue === 'true';
     if (active.value) {
       !receivedData.value.length && getData();
