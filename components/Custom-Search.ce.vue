@@ -50,10 +50,10 @@
         class="loader"
       ></span>
       <hr
-        v-else-if="!filteredData?.length"
+        v-if="!filteredData?.length && !isSearchEmpty"
         style="margin-top: 2em; width: 80%"
       />
-      <div v-else class="search-results">
+      <div v-if="filteredData?.length" class="search-results">
         <template
           class=""
           v-for="item in filteredData"
@@ -380,6 +380,7 @@ const hideSearch = () => {
 }
 .search-input {
   display: block;
+  min-width: 225px;
   padding: 0.4rem 1.4rem;
   font-size: 1rem;
   font-weight: 400;
