@@ -62,7 +62,7 @@
           <article>
             <a class="search-card" :href="generateLink(item)">
               <div class="search-card__body">
-                <div class="search-product__name">{{ item?.productName }}</div>
+                <div class="search-product__name" v-html="item?.productName"></div>
                 <div class="search-product__image__container">
                   <img
                     :src="item?.productLogoSmall"
@@ -143,6 +143,7 @@ const generateLink = (product) => {
 const search = ref(null);
 const searchString = ref(null);
 const filteredData = computed(() => {
+  console.log(receivedData.value)
   return (
     searchString.value &&
     receivedData.value.length &&
@@ -151,7 +152,10 @@ const filteredData = computed(() => {
         r.productName
           .toLowerCase()
           .includes(searchString.value.toLowerCase()) ||
-        r.searchwords.includes(searchString.value.toLowerCase())
+          r.searchwords.some(s => {
+            return s.toLowerCase().includes(searchString.value)
+          })
+        //  r.searchwords.includes(searchString.value.toLowerCase())
     )
   );
 });
