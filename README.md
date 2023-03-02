@@ -21,7 +21,7 @@
 #### in velocity template `header.vm`
 
 ```html
-  <custom-search />
+  <custom-search></custom-search>
 ```
 
 ## Interacting with component
