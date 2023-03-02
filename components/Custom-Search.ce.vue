@@ -65,8 +65,8 @@
                 <div class="search-product__name" v-html="item?.productName"></div>
                 <div class="search-product__image__container">
                   <img
-                    :src="item?.productLogoSmall"
-                    :alt="item?.productLogoSmall"
+                    :src="item?.giftcardImage"
+                    :alt="item?.giftcardImage"
                     class="search-product__image"
                   />
                 </div>
