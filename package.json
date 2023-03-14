@@ -1,14 +1,15 @@
 {
   "name": "search-web-component",
-  "version": "0.1.7",
+  "version": "0.1.9",
   "author": "Nikola Pavicevic <nijepa@gmail.com>",
   "description": "Vue3 web-component search with Vite",
   "keywords": [
     "Vue3",
     "web-component",
-    "vite"
+    "vite",
+    "search"
   ],
-  "repository": "github:https://github.com/nijepa/vue3-web-component-search",
+  "repository": "https://git.uklo.office.eeft.com/cadooz-developers/prototypes/im-search-vue",
   "private": true,
   "scripts": {
     "dev": "vite",
